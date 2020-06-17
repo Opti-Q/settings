@@ -1,14 +1,14 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.47">
+﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
 
-    <PropertyGroup>
-        <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;MonoAndroid80;Xamarin.iOS10;net462;net47;uap10.0</TargetFrameworks>
+  <PropertyGroup>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;MonoAndroid80;Xamarin.iOS10;uap10.0</TargetFrameworks>
         <!--<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;net462;net47;MonoAndroid70;MonoAndroid80;Xamarin.iOS10;Xamarin.Mac20;uap10.0</TargetFrameworks>
         <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard2.0;net462;net47;MonoAndroid70;MonoAndroid80;Xamarin.iOS10;Xamarin.Mac20</TargetFrameworks>-->
         <Product>ACR Settings Plugin for Xamarin and Windows</Product>
-        <Version>9.0.1</Version>
+        <Version>9.0.2</Version>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <Authors>aritchie</Authors>
+        <Authors>Opti-Q,aritchie</Authors>
         <Company />
         <Product>Acr.Settings ($(TargetFramework))</Product>
         <Description>
@@ -20,15 +20,15 @@ Cross Platform Settings Plugin for Xamarin and Windows.  Unlike other setting li
 * You can use roaming profiles which is useful for iOS app groups, iOS extensions, iWatch, and Android Wear
         </Description>
 
-        <RepositoryUrl>https://github.com/aritchie/settings</RepositoryUrl>
+        <RepositoryUrl>https://github.com/Opti-Q/settings</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <RepositoryUrl>https://github.com/aritchie/settings</RepositoryUrl>
-        <PackageProjectUrl>https://github.com/aritchie/settings</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/aritchie/settings/blob/master/LICENSE.md</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/Opti-Q/settings</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/Opti-Q/settings</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/Opti-Q/settings/blob/master/LICENSE.md</PackageLicenseUrl>
         <PackageIconUrl>https://github.com/aritchie/settings/raw/master/icon.png</PackageIconUrl>
         <PackageReleaseNotes>https://github.com/aritchie/settings/blob/master/docs/changelog.md</PackageReleaseNotes>
-        <PackageTags>windows uwp winphone android ios xamarin xam.pcl settings</PackageTags>
+        <PackageTags>Opti-Q windows uwp winphone android ios xamarin xam.pcl settings</PackageTags>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
