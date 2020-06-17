@@ -12,17 +12,16 @@ namespace Acr.Settings
     public class SettingsImpl : AbstractSettings
     {
         readonly object syncLock = new object();
-        ISharedPreferences prefs;
 
-
-        public ISharedPreferences Prefs
+        private void UsingPrefs(Action<ISharedPreferences> action)
         {
-            get
-            {
-                var ctx = Application.Context.ApplicationContext;
-                this.prefs = this.prefs ?? PreferenceManager.GetDefaultSharedPreferences(ctx);
-                return this.prefs;
-            }
+            using (var prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context.ApplicationContext))
+                action(prefs);
+        }
+        private T UsingPrefs<T>(Func<ISharedPreferences, T> action)
+        {
+            using (var prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context.ApplicationContext))
+                return action(prefs);
         }
 
 
@@ -30,11 +29,14 @@ namespace Acr.Settings
         {
             lock (this.syncLock)
             {
-                using (var editor = this.Prefs.Edit())
+                UsingPrefs(prefs =>
                 {
-                    doWork(editor);
-                    editor.Commit();
-                }
+                    using (var editor = prefs.Edit())
+                    {
+                        doWork(editor);
+                        editor.Commit();
+                    }
+                });
             }
         }
 
@@ -42,7 +44,9 @@ namespace Acr.Settings
         public override bool Contains(string key)
         {
             lock (this.syncLock)
-                return this.Prefs.Contains(key);
+            {
+                return UsingPrefs(prefs => prefs.Contains(key));
+            }
         }
 
 
@@ -55,22 +59,22 @@ namespace Acr.Settings
                 {
 
                     case TypeCode.Boolean:
-                        return this.Prefs.GetBoolean(key, false);
+                        return UsingPrefs(prefs => prefs.GetBoolean(key, false));
 
                     case TypeCode.Int32:
-                        return this.Prefs.GetInt(key, 0);
+                        return UsingPrefs(prefs => prefs.GetInt(key, 0));
 
                     case TypeCode.Int64:
-                        return this.Prefs.GetLong(key, 0);
+                        return UsingPrefs(prefs => prefs.GetLong(key, 0));
 
                     case TypeCode.Single:
-                        return this.Prefs.GetFloat(key, 0);
+                        return UsingPrefs(prefs => prefs.GetFloat(key, 0));
 
                     case TypeCode.String:
-                        return this.Prefs.GetString(key, String.Empty);
+                        return UsingPrefs(prefs => prefs.GetString(key, String.Empty));
 
                     default:
-                        var @string = this.Prefs.GetString(key, String.Empty);
+                        var @string = UsingPrefs(prefs => prefs.GetString(key, String.Empty));
                         return this.Deserialize(type, @string);
                 }
 
@@ -129,10 +133,10 @@ namespace Acr.Settings
         {
             lock (this.syncLock)
             {
-                return this.Prefs.All.ToDictionary(
+                return UsingPrefs(prefs => prefs.All.ToDictionary(
                     x => x.Key,
                     x => x.Value.ToString()
-                );
+                ));
             }
         }
     }
